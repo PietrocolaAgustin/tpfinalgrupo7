@@ -69,10 +69,6 @@ async function showContacto() {
     document.getElementById("content").innerHTML = response;
     localStorage.setItem("SelectMenu", "contacto.html");
     
-    
-
-
-
 }
 
 btnContacto.addEventListener('click', showContacto);
@@ -98,7 +94,39 @@ async function showCursos() {
     document.getElementById("content").innerHTML = response;
     localStorage.setItem("SelectMenu", "cursos.html");
 
+    insertarContenido("cursoFS.html" , "contentCursos");
 
+    let btnFullStack = document.getElementById("ProgFS");
+    let btnPSI = document.getElementById("PSI");
+    let btnPrgoDispMobiles = document.getElementById("ProgDispositivosMobiles");
+    let btnModelado3d = document.getElementById("modelado3d");
+    let btnAutocad = document.getElementById("autocad");
+
+    btnFullStack.addEventListener('click',()=> insertarContenido("cursoFS.html" , "contentCursos"));
+    btnPSI.addEventListener('click', ()=> insertarContenido("cursoPSI.html" , "contentCursos"));
+    btnPrgoDispMobiles.addEventListener('click', ()=> insertarContenido("cursoProgDispositivosMobiles.html", "contentCursos"));
+    btnModelado3d.addEventListener('click', ()=> insertarContenido("modeladoEimpresion3d.html", "contentCursos"));
+    btnAutocad.addEventListener('click', ()=> insertarContenido("autocad.html" , "contentCursos"));
 }
 
 btnCursos.addEventListener('click', showCursos);
+
+
+
+// async function navegarEnCursos(){
+// let response = await fetch("cursoFS.html")
+// response = await response.text();
+// document.getElementById("contentCursos").innerHTML= response;
+
+
+// }
+// btnFullStack.addEventListener('click', navegarEnCursos);
+
+
+async function insertarContenido(nombrePagina, contenedorid){
+    let response = await fetch(nombrePagina)
+    response = await response.text();
+    document.getElementById(contenedorid).innerHTML= response;
+    
+    
+    }
