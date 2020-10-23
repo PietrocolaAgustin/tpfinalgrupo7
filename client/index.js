@@ -1,5 +1,6 @@
 "use strict";
 
+
 let btnAdmin = document.getElementById("admin");
 let btnContacto = document.getElementById("contacto");
 let btnInscripcion = document.getElementById("inscripcion");
@@ -23,11 +24,11 @@ traerDelocalStorage();
 
 
 async function showAdmin() {
-    let response = await fetch("admin.html");
+    let response = await fetch("adminV2.html");
     response = await response.text();
     document.getElementById("content").innerHTML = response;
-    localStorage.setItem("SelectMenu", "admin.html");
-
+    localStorage.setItem("SelectMenu", "adminV2.html");
+    iniciaPreInscriptos();
 
 
 }
@@ -48,7 +49,7 @@ btnAdmin.addEventListener('click', showLogAdmin);
 
 //funcion bajar info de localstorage
 function traerDelocalStorage() {
-if (localStorage.getItem("SelectMenu") == "admin.html")
+if (localStorage.getItem("SelectMenu") == "adminV2.html")
       showAdmin();
 else if(localStorage.getItem("SelectMenu") == "contacto.html")
      showContacto();
@@ -113,16 +114,6 @@ btnCursos.addEventListener('click', showCursos);
 
 
 
-// async function navegarEnCursos(){
-// let response = await fetch("cursoFS.html")
-// response = await response.text();
-// document.getElementById("contentCursos").innerHTML= response;
-
-
-// }
-// btnFullStack.addEventListener('click', navegarEnCursos);
-
-
 async function insertarContenido(nombrePagina, contenedorid){
     let response = await fetch(nombrePagina)
     response = await response.text();
@@ -130,3 +121,37 @@ async function insertarContenido(nombrePagina, contenedorid){
     
     
     }
+
+//MOVER A ADMINV2
+
+// let listaPreInscriptos = [
+//     {
+//         nombreAlumno: "Juan Perez",
+//         nombreCurso: "Programador Full Stack",
+//         id: 0,
+//     }
+//     ,
+//     {
+//         nombreAlumno: "Juan Perez",
+//         nombreCurso: "Programador Full Stack",
+//         id: 1,
+//     }
+// ];
+
+// function iniciaPreInscriptos() {
+//     let elementoLista = "";
+//     for (let index = 0; index < listaPreInscriptos.length; index++) {
+//         elementoLista = elementoLista + (`<li class="list-group-item lista">
+//         <div class="row">
+//             <div class="col-md-5 ">${listaPreInscriptos[index].nombreAlumno}</div>
+//             <div class="col-md-5 ">${listaPreInscriptos[index].nombreCurso}</div>
+//             <div class="col-md-2 "><button type="button" class="btn btn-custom">Aceptar</button>
+//             </div>
+//         </li>`)
+
+//     }
+//     console.log(elementoLista);
+//     console.log(document.getElementById("preInscriptos"));
+//     document.getElementById("preInscriptos").innerHTML = elementoLista;
+    
+// }
