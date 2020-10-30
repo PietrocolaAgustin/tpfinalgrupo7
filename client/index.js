@@ -28,8 +28,8 @@ async function showAdmin() {
     response = await response.text();
     document.getElementById("content").innerHTML = response;
     localStorage.setItem("SelectMenu", "adminV2.html");
-    iniciaPreInscriptos();
-
+    
+    load();
 
 }
 
@@ -122,6 +122,8 @@ async function insertarContenido(nombrePagina, contenedorid){
     
     }
 
+
+    
 //MOVER A ADMINV2
 
 // let listaPreInscriptos = [
