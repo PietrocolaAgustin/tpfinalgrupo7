@@ -93,8 +93,8 @@ function iniciaPreInscriptos(listaPreInscriptos) {
     for (let index = 0; index < listaPreInscriptos.length; index++) {
         elementoLista = elementoLista + (`<li class="list-group-item lista">
                 <div class="row">
-                    <div class="col-md-5 ">${listaPreInscriptos[index].nombre + " " +  listaPreInscriptos[index].apellido}</div>
-                    <div class="col-md-5 ">${listaPreInscriptos[index].curso}</div>
+                    <div class="col-md-5 ">${listaPreInscriptos[index].nombreAlumno + " " +  listaPreInscriptos[index].apellidoAlumno}</div>
+                    <div class="col-md-5 ">${listaPreInscriptos[index].nombrecurso}</div>
                     <div class="col-md-2 "><button type="button" class="btn btn-custom">Aceptar</button>
                     </div>
                 </li>`)
@@ -106,9 +106,9 @@ function iniciaPreInscriptos(listaPreInscriptos) {
 }
 
 
-async function load() {
+async function loadAlumnos() {
     let container = document.querySelector("#preInscriptos");
-    let response = await fetch(`/alumnos/preinscriptos`);
+    let response = await fetch(`/alumnos`);
     if (response.ok) {
         console.log(response);
         let t = await response.json()

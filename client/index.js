@@ -29,7 +29,7 @@ async function showAdmin() {
     document.getElementById("content").innerHTML = response;
     localStorage.setItem("SelectMenu", "adminV2.html");
     
-    load();
+    loadAlumnos();
 
 }
 
