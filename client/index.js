@@ -80,8 +80,9 @@ async function showInscripcion() {
     response = await response.text();
     document.getElementById("content").innerHTML = response;
     localStorage.setItem("SelectMenu", "inscripcion.html");
-
-
+    
+    let btnAgregar = document.querySelector("#inscribir");
+    btnAgregar.addEventListener("click", agregar);
 
 }
 

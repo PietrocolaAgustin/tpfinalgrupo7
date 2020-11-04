@@ -10,20 +10,21 @@ export class AlumnosService {
     private listaAlumnos: Alumno[];
 
     public constructor() {
-        this.loadAlumnos();
+
     }
 
 
     public getAlumnos(): Alumno[] {
+        this.loadAlumnos();
         return this.listaAlumnos;
     }
 
     public getAlumno(index: number): Alumno {
         // Más adelante agregar manejo de status code
-        //if (index < 0 || index >= this.listaProductos.length)
+
         return null;
 
-        // return this.listaProductos[index];
+
     }
 
 
@@ -43,10 +44,44 @@ export class AlumnosService {
                 elementos[i][7]
 
             );
-            
+
             this.listaAlumnos.push(alumno);
 
         });
+    }
+
+    public create(alumno: any) {
+
+        let nombreAlumno = alumno['nombreAlumno'];
+        let apellidoAlumno = alumno['apellido'];
+        let curso = alumno['curso'];
+        let telefonoAlumno = alumno['telefono'];
+        let dniAlumno = alumno['dni'];
+        let mailAlumno = alumno['mail'];
+        let direccionAlumno = alumno['direccion'];
+       
+        if (nombreAlumno && apellidoAlumno && curso && telefonoAlumno && dniAlumno && mailAlumno && direccionAlumno) {
+            let id = null;
+            let archivo = fs.readFileSync('alumnos.csv').toString();
+            let elementos = archivo.split('\n');
+            id = "alumno_" + elementos.length;
+            const alumno = new Alumno(id, nombreAlumno, apellidoAlumno, curso, telefonoAlumno, dniAlumno, mailAlumno, direccionAlumno);
+
+            
+            fs.appendFileSync('alumnos.csv',
+                "\n" +
+                  alumno.getidAlumno()+ ","
+                + alumno.getNombreAlumno() + ","
+                + alumno.getApellidoAlumno() + ","
+                + alumno.getNombreCurso() + ","
+                + alumno.getTelefonoAlumno() + ","
+                + alumno.getDniAlumno() + ","
+                + alumno.getMailAlumno() + ","
+                + alumno.getDireccionAlumno());
+            return "ok";
+        }
+        else
+            return "parametros incorrectos";
     }
 }
 
