@@ -1,6 +1,7 @@
 "use strict";
 console.log("ANDO");
-let btnpreInscribir = document.querySelector("#inscribir");
+
+
 
 //let btnAceptar = document.querySelector("#");
 //btnAceptar.addEventListener("click" , AceptarInscripcion );
@@ -24,7 +25,7 @@ let listaPreInscriptos = [
     }
 ];
 
-
+/*
 
 function agregarPreinscripto() {
     console.log("Funcion Agregar");
@@ -54,12 +55,12 @@ function agregarPreinscripto() {
     btnpreInscribir.addEventListener("click", consle.log("CARGO"));
 }
 
+*/
 
 
 
 
-
-function mostrarPreinscriptos() {
+/*function mostrarPreinscriptos() {
     let html = "";
     for (let r of compras) {
         html += `
@@ -70,8 +71,8 @@ function mostrarPreinscriptos() {
     `;
     }
     document.querySelector("#tblCompras").innerHTML = html;
-}
-
+}*/
+/*
 function AceptarInscripcion() {
     console.log("Funcion Agregar");
     let producto = document.querySelector('#producto').value;
@@ -87,20 +88,20 @@ function AceptarInscripcion() {
     mostrarTablaCompras();
 
 }
-
+*/
 function iniciaPreInscriptos(listaPreInscriptos) {
     let elementoLista = "";
     for (let index = 0; index < listaPreInscriptos.length; index++) {
         elementoLista = elementoLista + (`<li class="list-group-item lista">
                 <div class="row">
-                    <div class="col-md-5 ">${listaPreInscriptos[index].nombreAlumno + " " +  listaPreInscriptos[index].apellidoAlumno}</div>
+                    <div class="col-md-5 ">${listaPreInscriptos[index].nombreAlumno + " " + listaPreInscriptos[index].apellidoAlumno}</div>
                     <div class="col-md-5 ">${listaPreInscriptos[index].nombrecurso}</div>
-                    <div class="col-md-2 "><button type="button" class="btn btn-custom">Aceptar</button>
+                    <div class="col-md-2 "><button type="button" id="${index}" class="btn btn-custom" onclick="aceptarAlumno(${listaPreInscriptos[index]})">Aceptar</button>
                     </div>
                 </li>`)
- 
+
     }
-    
+
     return elementoLista;
 
 }
@@ -113,8 +114,46 @@ async function loadAlumnos() {
         console.log(response);
         let t = await response.json()
         console.log(t);
-        container.innerHTML = iniciaPreInscriptos(t) ;
-       
+        container.innerHTML = iniciaPreInscriptos(t);
+
     }
 }
 
+async function agregar() {
+    
+    let nombre = document.querySelector('#nombre').value;
+    let apellido = document.querySelector('#apellido').value;
+    let curso = document.querySelector('#curso').value;
+    let telefono = parseInt(document.querySelector('#telefono').value);
+    let dni = parseInt(document.querySelector('#dni').value);
+    let mail = document.querySelector('#mail').value;
+    let direccion = document.querySelector('#direccion').value;
+    let renglon = {
+        "nombreAlumno": nombre,
+        "apellido": apellido,
+        "curso": curso,
+        "telefono": telefono,
+        "dni": dni,
+        "mail": mail,
+        "direccion": direccion
+    }
+
+    
+
+    let response = await fetch("/alumnos", {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": JSON.stringify(renglon)
+    })
+    if (response.ok) {
+        let json = await response.text();
+         alert(json);
+            alert("ok");
+           
+            
+        
+    }
+
+}

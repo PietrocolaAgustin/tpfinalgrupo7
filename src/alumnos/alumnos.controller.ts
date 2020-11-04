@@ -17,10 +17,9 @@ export class AlumnosController {
          return this.alumnosService.getAlumno(index);
      }
 
-
-    // @Post()
-    // create(@Body() alumnospreinscriptos: any): string {
-    //     return
-    //     this.alumnosService.create(alumnospreinscriptos);
-    // }
+     @Post()
+     create(@Body() alumn: any): string {
+         return this.alumnosService.create(alumn);
+     }
+    
 }
