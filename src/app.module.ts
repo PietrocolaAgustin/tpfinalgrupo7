@@ -13,7 +13,7 @@ import { AlumnosService } from './alumnos/alumnos.service';
   imports: [
     ServeStaticModule.forRoot({
     rootPath: join(__dirname, '..',
-    'client'),
+    'client/html'),
     }),
     ],
   controllers: [AppController, AlumnosController ],
