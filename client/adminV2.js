@@ -10,6 +10,7 @@ console.log("ANDO");
 
 
 let nuevoAlumnoPreinscripto = [];
+let nuevoAlumnoInscripto = [];
 
 let listaPreInscriptos = [
     {
@@ -25,78 +26,29 @@ let listaPreInscriptos = [
     }
 ];
 
-/*
-
-function agregarPreinscripto() {
-    console.log("Funcion Agregar");
-    let nombre = document.querySelector('#nombre').value;
-    let apellido = document.querySelector('#apellido').value;
-    let curso = document.querySelector('#curso').value;
-    let telefono = document.querySelector('#telefono').value;
-    let dni = document.querySelector('#dni').value;
-    let mail = document.querySelector('#mail').value;
-    let direccion = document.querySelector('#direccion').value;
-
-
-    let nuevoAlumno = {
-        "nombre": nombreAlumno,
-        "apellido": apellido,
-        "curso": curso,
-        "telefono": telefono,
-        "dni": dni,
-        "mail": mail,
-        "direccion": direccion,
+let listaInscriptos = [
+    {
+        nombreAlumno: "Alberso Fernandez",
+        nombreCurso: "Programador Full Stack",
+        id: 0,
     }
-    nuevoAlumnoPreinscripto.push(nuevoAlumno);
-
-    mostrarPreinscriptos();
-
-
-    btnpreInscribir.addEventListener("click", consle.log("CARGO"));
-}
-
-*/
-
-
-
-
-/*function mostrarPreinscriptos() {
-    let html = "";
-    for (let r of compras) {
-        html += `
-    <tr>
-    <td>${r.producto}</td>
-    <td>${r.precio}</td>
-    </tr>
-    `;
+    ,
+    {
+        nombreAlumno: "Juan Perez",
+        nombreCurso: "Programador Full Stack",
+        id: 1,
     }
-    document.querySelector("#tblCompras").innerHTML = html;
-}*/
-/*
-function AceptarInscripcion() {
-    console.log("Funcion Agregar");
-    let producto = document.querySelector('#producto').value;
-    let precio =
-        parseInt(document.querySelector('#precio').value);
+];
 
-    let renglon = {
-        "producto": producto,
-        "precio": precio
-    }
-    compras.push(renglon);
-
-    mostrarTablaCompras();
-
-}
-*/
 function iniciaPreInscriptos(listaPreInscriptos) {
     let elementoLista = "";
     for (let index = 0; index < listaPreInscriptos.length; index++) {
+
         elementoLista = elementoLista + (`<li class="list-group-item lista">
                 <div class="row">
                     <div class="col-md-5 ">${listaPreInscriptos[index].nombreAlumno + " " + listaPreInscriptos[index].apellidoAlumno}</div>
                     <div class="col-md-5 ">${listaPreInscriptos[index].nombrecurso}</div>
-                    <div class="col-md-2 "><button type="button" id="${index}" class="btn btn-custom" onclick="aceptarAlumno(${listaPreInscriptos[index]})">Aceptar</button>
+                    <div class="col-md-2 "><button type="button" id="${"button" + index}" class="btn btn-custom" >Aceptar</button>
                     </div>
                 </li>`)
 
@@ -111,16 +63,22 @@ async function loadAlumnos() {
     let container = document.querySelector("#preInscriptos");
     let response = await fetch(`/alumnos`);
     if (response.ok) {
-        console.log(response);
+        //console.log(response);
         let t = await response.json()
-        console.log(t);
+        //console.log(t);
         container.innerHTML = iniciaPreInscriptos(t);
+
+        for (let index = 0; index < t.length; index++) {
+            let btnAgregar = document.querySelector('#button' + index);
+            btnAgregar.addEventListener('click', function () { aceptarAlumno(t[index]) });
+
+        }
 
     }
 }
 
 async function agregar() {
-    
+
     let nombre = document.querySelector('#nombre').value;
     let apellido = document.querySelector('#apellido').value;
     let curso = document.querySelector('#curso').value;
@@ -138,7 +96,7 @@ async function agregar() {
         "direccion": direccion
     }
 
-    
+
 
     let response = await fetch("/alumnos", {
         "method": "POST",
@@ -149,11 +107,78 @@ async function agregar() {
     })
     if (response.ok) {
         let json = await response.text();
-         alert(json);
-            alert("ok");
-           
-            
-        
+        alert(json);
+        alert("ok");
+
+
+
+    }
+
+}
+
+
+function iniciarInscriptos(listaInscriptos) {
+    let elementoLista = "";
+    for (let index = 0; index < listaInscriptos.length; index++) {
+        elementoLista = elementoLista + (`<li class="list-group-item lista">
+                <div class="row">
+                    <div class="col-md-5 ">${listaInscriptos[index].nombreAlumno + " " + listaInscriptos[index].apellidoAlumno}</div>
+                    <div class="col-md-5 ">${listaInscriptos[index].nombrecurso}</div>
+                    <div class="col-md-2 "><button type="button" id="${index}" class="btn btn-custom" onclick="eliminarAlumno(${listaInscriptos[index]})">Eliminar</button>
+                    </div>
+                </li>`)
+
+    }
+
+    return elementoLista;
+
+}
+
+async function loadInscriptos() {
+    console.log("ENTRO A INSCRIPTOS");
+    let container = document.querySelector("#inscriptos");
+    let response = await fetch('/alumnos-preinscriptos', {
+        headers: {
+            "method": "GET",
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        },
+    });
+
+
+    if (response.ok) {
+        let j = await response.json()
+
+
+        console.log(j);
+        container.innerHTML = iniciarInscriptos(j);
+    } else {
+        console.log("qe pasa?");
+    }
+}
+
+
+
+
+
+async function aceptarAlumno(alumno) {
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
+    let response = await fetch("/alumnos/aceptar", {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": JSON.stringify(alumno)
+    })
+    if (response.ok) {
+        let json = await response.text();
+        loadInscriptos();
+        loadAlumnos();
+        alert("Alumno Aceptado");
+
+
+
     }
 
 }

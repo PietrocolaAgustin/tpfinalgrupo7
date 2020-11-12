@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AlumnosController } from './alumnos/alumnos.controller';
 import { AlumnosService } from './alumnos/alumnos.service';
+import { AlumnosInscriptosController } from './alumnos-inscriptos/alumnos-inscriptos.controller';
 
   
 
@@ -16,7 +17,7 @@ import { AlumnosService } from './alumnos/alumnos.service';
     'client'),
     }),
     ],
-  controllers: [AppController, AlumnosController ],
+  controllers: [AppController, AlumnosController, AlumnosInscriptosController ],
   providers: [AppService, AlumnosService ],
 })
 export class AppModule {}
