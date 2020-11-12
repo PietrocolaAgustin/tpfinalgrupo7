@@ -7,12 +7,13 @@ export class Alumno {
     private dniAlumno: number;
     private mailAlumno: string;
     private direccionAlumno: string;
+    private estadoAlumno : boolean;
 
 
 
 
     public constructor(id: string, nombreAlumno: string, apellidoAlumno: string, nombrecurso: string, telefonoAlumno: number,
-        dniAlumno: number, mailAlumno: string, direccionAlumno: string) {
+        dniAlumno: number, mailAlumno: string, direccionAlumno: string, estadoAlumno : boolean) {
         this.id = id;
         this.nombreAlumno = nombreAlumno;
         this.apellidoAlumno = apellidoAlumno;
@@ -21,6 +22,7 @@ export class Alumno {
         this.dniAlumno = dniAlumno;
         this.mailAlumno = mailAlumno;
         this.direccionAlumno = direccionAlumno;
+        this.estadoAlumno = estadoAlumno;
     }
     public getidAlumno(): string {
         return this.id;
@@ -47,7 +49,9 @@ export class Alumno {
     public getDireccionAlumno(): string {
         return this.direccionAlumno;
     }
-
+    public getestadoAlumno(): boolean {
+        return this.estadoAlumno;
+    }
 
 
 

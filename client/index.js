@@ -30,6 +30,7 @@ async function showAdmin() {
     localStorage.setItem("SelectMenu", "adminV2.html");
     
     loadAlumnos();
+    loadInscriptos();
 
 }
 
