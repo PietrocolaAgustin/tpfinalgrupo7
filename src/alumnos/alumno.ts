@@ -1,5 +1,5 @@
 export class Alumno {
-    private id: string;
+    private id: number;
     private nombreAlumno: string;
     private apellidoAlumno: string;
     private nombrecurso: string;
@@ -12,7 +12,7 @@ export class Alumno {
 
 
 
-    public constructor(id: string, nombreAlumno: string, apellidoAlumno: string, nombrecurso: string, telefonoAlumno: number,
+    public constructor(id: number, nombreAlumno: string, apellidoAlumno: string, nombrecurso: string, telefonoAlumno: number,
         dniAlumno: number, mailAlumno: string, direccionAlumno: string, estadoAlumno : boolean) {
         this.id = id;
         this.nombreAlumno = nombreAlumno;
@@ -24,7 +24,7 @@ export class Alumno {
         this.direccionAlumno = direccionAlumno;
         this.estadoAlumno = estadoAlumno;
     }
-    public getidAlumno(): string {
+    public getidAlumno(): number {
         return this.id;
     }
 

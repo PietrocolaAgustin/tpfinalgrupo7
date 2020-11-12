@@ -43,7 +43,7 @@ export class AlumnosService {
             this.listaAlumnos = [];
             elementos.forEach((elem, i) => {
                 let alumno = new Alumno(
-                    elementos[i][0],
+                    parseInt(elementos[i][0]),
                     elementos[i][1],
                     elementos[i][2],
                     elementos[i][3],
@@ -125,7 +125,7 @@ export class AlumnosService {
 
         //console.log(alumno);
         if (nombreAlumno && apellidoAlumno && curso && telefonoAlumno && dniAlumno && mailAlumno && direccionAlumno) {
-           let idInscripto = "alumno_" + this.listaInscriptos.length;
+           let idInscripto =  this.listaInscriptos.length;
 
             const alumno = new Alumno(idInscripto, nombreAlumno, apellidoAlumno, curso, telefonoAlumno, dniAlumno, mailAlumno, direccionAlumno, false);
             if(this.listaInscriptos.length === 0){
@@ -156,19 +156,23 @@ export class AlumnosService {
             }
 
             let posicion = null;
-
+            //busco id
             for (let index = 0; index < this.listaAlumnos.length; index++) {
-                if (alumno.getidAlumno() === this.listaAlumnos[index].getidAlumno()) {
+                if (alumno.getidAlumno() == this.listaAlumnos[index].getidAlumno()) {
                     posicion = index;
 
                 }
             }
+            //leo el archivo
             let archivo = fs.readFileSync('alumnos.csv', 'utf8');
-
+            //divido la lineas por el caracter /n . devuelve array
             let arrayActualizado = archivo.split('\n');
+            //elimino elemento 1 elemento segun posicion
             arrayActualizado.splice(posicion, 1);
+            //junto nuevamente las linias separadas anteriormente separados por /n
             const archivoActualizado = arrayActualizado.join('\n');
-            console.log(arrayActualizado);
+            //console.log(arrayActualizado);
+            //sobreescribo el archivo
             fs.writeFileSync('alumnos.csv', archivoActualizado);
 
 
@@ -190,7 +194,7 @@ export class AlumnosService {
             elementos.forEach((elem, i) => {
 
                 let inscripto = new Alumno(
-                    elementos[i][0],
+                    parseInt(elementos[i][0]),
                     elementos[i][1],
                     elementos[i][2],
                     elementos[i][3],
@@ -212,9 +216,27 @@ export class AlumnosService {
 
 
 
-    public eliminarAlumno(position: number): boolean {
-        let removed = this.listaInscriptos.splice(position,1);
-        return removed.length == 1;
+    public eliminarAlumno(idAlumnoInscripto: number): boolean {
+        //leo el archivo
+        let archivo = fs.readFileSync('alumnosinscriptos.csv', 'utf8');
+        //divido la lineas por el caracter /n . devuelve array
+        let arrayActualizado = archivo.split('\n');
+        
+        let posicion = null;
+        //busco id
+        for (let index = 0; index < this.listaInscriptos.length; index++) {
+            if (idAlumnoInscripto == this.listaInscriptos[index].getidAlumno()) {
+                posicion = index;
+            }
+        }
+        //elimino elemento 1 elemento segun posicion
+        let alumnoEliminado = arrayActualizado.splice(posicion, 1);
+        //junto nuevamente las linias separadas anteriormente separados por /n
+        const archivoActualizado = arrayActualizado.join('\n');
+        //console.log(arrayActualizado);
+        //sobreescribo el archivo
+        fs.writeFileSync('alumnosinscriptos.csv', archivoActualizado);
+        return alumnoEliminado.length == 1;
         }
 }
 

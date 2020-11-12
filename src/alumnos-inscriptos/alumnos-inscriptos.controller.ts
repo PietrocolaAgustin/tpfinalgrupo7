@@ -1,4 +1,4 @@
-import { Controller, Get, Delete } from '@nestjs/common';
+import { Controller, Get, Delete, Param } from '@nestjs/common';
 import { Alumno } from 'src/alumnos/alumno';
 import { AlumnosService } from 'src/alumnos/alumnos.service';
 
@@ -13,13 +13,11 @@ export class AlumnosInscriptosController {
         return this.alumnosService.getAlumnoInscripto();
     }
 
-    @Delete(':index')
-    public eliminarAlumno(@Param('index') index): boolean
-    {
-    return this.alumnosService
-    
-    //.eliminarAlumno(parseInt(index));
-    
-    }
-
+  //  @Delete(':index')
+  //  public eliminarAlumno(@Param('index') index: string): boolean{
+ //   console.log("entro al controlador");
+  //  return this.alumnosService.eliminarAlumno(parseInt(index));
+   
+ //  }
+   
 }

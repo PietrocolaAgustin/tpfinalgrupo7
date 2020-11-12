@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Param, Delete } from '@nestjs/common';
 import { AlumnosService } from './alumnos.service';
 import { Alumno } from './alumno';
 
@@ -11,6 +11,7 @@ export class AlumnosController {
 
     @Get(':index')
     public getAlumno(@Param('index') index): Alumno {
+        
         return this.alumnosService.getAlumno(index);
     }
 
@@ -31,4 +32,11 @@ export class AlumnosController {
     create(@Body() alumn: any): string {
         return this.alumnosService.create(alumn);
     }
+
+    @Delete(':id')
+    public eliminarAlumno(@Param('id') id: number): boolean{
+    console.log("entro al controlador");
+    return this.alumnosService.eliminarAlumno(id);
+   
+   }
 }
