@@ -124,7 +124,7 @@ function iniciarInscriptos(listaInscriptos) {
                 <div class="row">
                     <div class="col-md-5 ">${listaInscriptos[index].nombreAlumno + " " + listaInscriptos[index].apellidoAlumno}</div>
                     <div class="col-md-5 ">${listaInscriptos[index].nombrecurso}</div>
-                    <div class="col-md-2 "><button type="button" id="${index}" class="btn btn-custom" onclick="eliminarAlumno(${listaInscriptos[index]})">Eliminar</button>
+                    <div class="col-md-2 "><button type="button" id="${"buttonDelete" + index}" class="btn btn-custom" >Eliminar</button>
                     </div>
                 </li>`)
 
@@ -145,17 +145,19 @@ async function loadInscriptos() {
             }
         },
     });
-
-
     if (response.ok) {
-        let j = await response.json()
+        let alumnosInscriptos = await response.json()
 
+        //console.log(j);
+        container.innerHTML = iniciarInscriptos(alumnosInscriptos);
 
-        console.log(j);
-        container.innerHTML = iniciarInscriptos(j);
-    } else {
-        console.log("qe pasa?");
+        for (let index = 0; index < alumnosInscriptos.length; index++) {
+            let btnDelete = document.querySelector('#buttonDelete' + index);
+            btnDelete.addEventListener('click', function () { borrarAlumno(alumnosInscriptos[index].id)});
+    
+        }
     }
+    
 }
 
 
@@ -163,7 +165,7 @@ async function loadInscriptos() {
 
 
 async function aceptarAlumno(alumno) {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
+    //console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
     let response = await fetch("/alumnos/aceptar", {
         "method": "POST",
         "headers": {
@@ -181,4 +183,16 @@ async function aceptarAlumno(alumno) {
 
     }
 
+}
+
+async function borrarAlumno(idAlumnoInscripto) {
+    //console.log("entro a delete");
+    let response = await fetch(`/alumnos/` + idAlumnoInscripto, {
+        "method": "DELETE",
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    });
+
+    loadInscriptos();
 }
