@@ -46,8 +46,8 @@ function iniciaPreInscriptos(listaPreInscriptos) {
 
         elementoLista = elementoLista + (`<li class="list-group-item lista">
                 <div class="row">
-                    <div class="col-md-5 ">${listaPreInscriptos[index].nombreAlumno + " " + listaPreInscriptos[index].apellidoAlumno}</div>
-                    <div class="col-md-5 ">${listaPreInscriptos[index].nombrecurso}</div>
+                    <div class="col-md-5 ">${listaPreInscriptos[index].nombre + " " + listaPreInscriptos[index].apellido}</div>
+                    <div class="col-md-5 ">${listaPreInscriptos[index].curso.nombre}</div>
                     <div class="col-md-2 "><button type="button" id="${"button" + index}" class="btn btn-custom" >Aceptar</button>
                     </div>
                 </li>`)
@@ -61,16 +61,16 @@ function iniciaPreInscriptos(listaPreInscriptos) {
 
 async function loadAlumnos() {
     let container = document.querySelector("#preInscriptos");
-    let response = await fetch(`/alumnos`);
+    let response = await fetch(`./alumno/get-all-preinscripto`);
     if (response.ok) {
         //console.log(response);
-        let t = await response.json()
+        let arrayAlumnos = await response.json()
         //console.log(t);
-        container.innerHTML = iniciaPreInscriptos(t);
+        container.innerHTML = iniciaPreInscriptos(arrayAlumnos);
 
-        for (let index = 0; index < t.length; index++) {
+        for (let index = 0; index < arrayAlumnos.length; index++) {
             let btnAgregar = document.querySelector('#button' + index);
-            btnAgregar.addEventListener('click', function () { aceptarAlumno(t[index]) });
+            btnAgregar.addEventListener('click', function () { aceptarAlumno(arrayAlumnos[index].idalumno) });
 
         }
 
@@ -87,34 +87,38 @@ async function agregar() {
     let mail = document.querySelector('#mail').value;
     let direccion = document.querySelector('#direccion').value;
     let renglon = {
-        "nombreAlumno": nombre,
+        //clave        //valor
+        "nombre": nombre,
         "apellido": apellido,
-        "curso": curso,
+        "idcurso": parseInt(curso),
         "telefono": telefono,
         "dni": dni,
         "mail": mail,
         "direccion": direccion
+    }    
+        let response = await fetch("/alumno/nuevo-alumno", {
+            "method": "POST",
+            "headers": {
+
+                "Content-Type": "application/json"
+            },
+            "body": JSON.stringify(renglon)
+
+        });
+       // console.log(response);
+        if (response.ok) {
+            let json = await response.text();
+            alert("Se acepto tu solicitud de preinscripcion");
+            //alert("ok");
+        }
+        else{
+            alert("Falla en la carga de datos");
+        }
     }
 
+   
 
 
-    let response = await fetch("/alumnos", {
-        "method": "POST",
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "body": JSON.stringify(renglon)
-    })
-    if (response.ok) {
-        let json = await response.text();
-        alert(json);
-        alert("ok");
-
-
-
-    }
-
-}
 
 
 function iniciarInscriptos(listaInscriptos) {
@@ -122,8 +126,8 @@ function iniciarInscriptos(listaInscriptos) {
     for (let index = 0; index < listaInscriptos.length; index++) {
         elementoLista = elementoLista + (`<li class="list-group-item lista">
                 <div class="row">
-                    <div class="col-md-5 ">${listaInscriptos[index].nombreAlumno + " " + listaInscriptos[index].apellidoAlumno}</div>
-                    <div class="col-md-5 ">${listaInscriptos[index].nombrecurso}</div>
+                    <div class="col-md-5 ">${listaInscriptos[index].nombre + " " + listaInscriptos[index].apellido}</div>
+                    <div class="col-md-5 ">${listaInscriptos[index].curso.nombre}</div>
                     <div class="col-md-2 "><button type="button" id="${"buttonDelete" + index}" class="btn btn-custom" >Eliminar</button>
                     </div>
                 </li>`)
@@ -135,9 +139,9 @@ function iniciarInscriptos(listaInscriptos) {
 }
 
 async function loadInscriptos() {
-    console.log("ENTRO A INSCRIPTOS");
+    //console.log("ENTRO A INSCRIPTOS");
     let container = document.querySelector("#inscriptos");
-    let response = await fetch('/alumnos-preinscriptos', {
+    let response = await fetch('/alumno/get-all-inscriptos', {
         headers: {
             "method": "GET",
             "headers": {
@@ -145,33 +149,35 @@ async function loadInscriptos() {
             }
         },
     });
+
+
     if (response.ok) {
         let alumnosInscriptos = await response.json()
-
+        console.log(alumnosInscriptos);
         //console.log(j);
         container.innerHTML = iniciarInscriptos(alumnosInscriptos);
 
         for (let index = 0; index < alumnosInscriptos.length; index++) {
             let btnDelete = document.querySelector('#buttonDelete' + index);
-            btnDelete.addEventListener('click', function () { borrarAlumno(alumnosInscriptos[index].id)});
-    
+            btnDelete.addEventListener('click', function () { borrarAlumno(alumnosInscriptos[index].idalumno) });
+
         }
     }
-    
+
 }
 
 
 
 
 
-async function aceptarAlumno(alumno) {
+async function aceptarAlumno(idalumno) {
     //console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
-    let response = await fetch("/alumnos/aceptar", {
-        "method": "POST",
+    let response = await fetch("/alumno/" + idalumno, {
+        "method": "PUT",
         "headers": {
             "Content-Type": "application/json"
         },
-        "body": JSON.stringify(alumno)
+
     })
     if (response.ok) {
         let json = await response.text();
@@ -185,9 +191,10 @@ async function aceptarAlumno(alumno) {
 
 }
 
-async function borrarAlumno(idAlumnoInscripto) {
+async function borrarAlumno(idalumno) {
     //console.log("entro a delete");
-    let response = await fetch(`/alumnos/` + idAlumnoInscripto, {
+    // en alumnos-inscriptos delete no funciona por eso el fetch es /alumnos
+    let response = await fetch(`/alumno/` + idalumno, {
         "method": "DELETE",
         "headers": {
             "Content-Type": "application/json"

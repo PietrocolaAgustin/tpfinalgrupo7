@@ -160,13 +160,25 @@ iframe {
     background-color: rgb(204, 110, 47) ;
 }
 
-#nombre, #apellido, #Curso, #Telefono, #DNI, #Mail, #Direccion, #selCurso, #mensajeContacto, .card-body{
+#nombre, #apellido, #Curso, #Telefono, #dni, #Mail, #Direccion, #selCurso, #mensajeContacto, .card-body{
     background-color: rgb(204, 110, 47);
     border-color: rgb(204, 110, 47);
     color: white;
     
+    
 }
 
+.form-group label{
+font-weight:bold ;
+}
+
+.form-group .form-control {
+    background-color: rgb(204, 110, 47);
+    border-color: rgb(204, 110, 47);
+    color: white;
+}
+
+.tablas
 
 
 
@@ -227,6 +239,7 @@ h6{
     border-style: solid;
     border-width: thin;
     border-color: rgb(204, 110, 47);
+    
 }
 
 body{

@@ -9,6 +9,7 @@ export class AlumnosController {
 
     
 
+    //obtengo de a 1 alumno segun id(index)
     @Get(':index')
     public getAlumno(@Param('index') index): Alumno {
         
@@ -23,6 +24,7 @@ export class AlumnosController {
         return this.alumnosService.aceptarAlumno(alumn);
     }
 
+    // obtengo array alumno
     @Get()
     public getNombreAlumnos(): Alumno[] {
         return this.alumnosService.getAlumnos();
@@ -35,7 +37,7 @@ export class AlumnosController {
 
     @Delete(':id')
     public eliminarAlumno(@Param('id') id: number): boolean{
-    console.log("entro al controlador");
+    //console.log("entro al controlador");
     return this.alumnosService.eliminarAlumno(id);
    
    }

@@ -2,7 +2,7 @@ import { Controller, Get, Delete, Param } from '@nestjs/common';
 import { Alumno } from 'src/alumnos/alumno';
 import { AlumnosService } from 'src/alumnos/alumnos.service';
 
-@Controller('alumnos-preinscriptos')
+@Controller('alumnos-inscriptos')
 export class AlumnosInscriptosController {
     constructor(private alumnosService: AlumnosService) { }
 
